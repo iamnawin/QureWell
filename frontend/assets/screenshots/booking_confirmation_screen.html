@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation Screen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            border: 16px solid #111;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #6200ee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            color: white;
+            font-weight: bold;
+        }
+        .header {
+            background-color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        .back-button {
+            font-size: 24px;
+            margin-right: 16px;
+            color: #6200ee;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 16px;
+            overflow-y: auto;
+            height: calc(100% - 180px);
+        }
+        .confirmation-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .confirmation-header {
+            background-color: #6200ee;
+            padding: 16px;
+            color: white;
+            text-align: center;
+        }
+        .confirmation-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .confirmation-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .confirmation-body {
+            padding: 24px 16px;
+        }
+        .appointment-details {
+            margin-bottom: 24px;
+        }
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .doctor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #e6e0ff;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #6200ee;
+        }
+        .doctor-details {
+            flex: 1;
+        }
+        .doctor-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .doctor-specialty {
+            font-size: 14px;
+            color: #666;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+        .detail-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 14px;
+            color: #6200ee;
+        }
+        .detail-content {
+            flex: 1;
+        }
+        .detail-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 20px 0;
+        }
+        .notes-section {
+            margin-bottom: 24px;
+        }
+        .notes-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .notes-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            padding: 12px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .action-button {
+            flex: 1;
+            height: 48px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .primary-button {
+            background-color: #6200ee;
+            color: white;
+            margin-left: 8px;
+        }
+        .secondary-button {
+            background-color: white;
+            color: #6200ee;
+            border: 1px solid #6200ee;
+            margin-right: 8px;
+        }
+        .success-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 24px 0;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: #e6f7ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #00c853;
+            margin-bottom: 16px;
+        }
+        .success-message {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .success-submessage {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        .nav-item.active {
+            color: #6200ee;
+        }
+        .nav-item-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .nav-item-label {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>
+                <span style="margin-right: 8px;">📶</span>
+                <span style="margin-right: 8px;">📡</span>
+                <span>🔋</span>
+            </span>
+        </div>
+        <div class="header">
+            <div class="back-button">←</div>
+            <div class="header-title">Appointment Confirmation</div>
+        </div>
+        <div class="content">
+            <div class="confirmation-card">
+                <div class="confirmation-header">
+                    <div class="confirmation-title">Appointment Confirmed</div>
+                    <div class="confirmation-subtitle">Your appointment has been successfully booked</div>
+                </div>
+                <div class="confirmation-body">
+                    <div class="success-animation">
+                        <div class="success-icon">✓</div>
+                        <div class="success-message">Booking Successful!</div>
+                        <div class="success-submessage">We've sent a confirmation to your email and phone</div>
+                    </div>
+                    
+                    <div class="appointment-details">
+                        <div class="doctor-info">
+                            <div class="doctor-avatar">👨‍⚕️</div>
+                            <div class="doctor-details">
+                                <div class="doctor-name">Dr. Sesha Giri Rao</div>
+                                <div class="doctor-specialty">Cardiology</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-icon">📅</div>
+                            <div class="detail-content">
+                                <div class="detail-label">Date</div>
+                                <div class="detail-value">Thursday, May 22, 2025</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-icon">🕙</div>
+                            <div class="detail-content">
+                                <div class="detail-label">Time</div>
+                                <div class="detail-value">10:30 AM</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-icon">🏥</div>
+                            <div class="detail-content">
+                                <div class="detail-label">Location</div>
+                                <div class="detail-value">Apollo Hospitals, Jubilee Hills</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-icon">📋</div>
+                            <div class="detail-content">
+                                <div class="detail-label">Appointment Type</div>
+                                <div class="detail-value">Regular Check-up</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="notes-section">
+                        <div class="notes-title">Notes</div>
+                        <div class="notes-content">
+                            Follow-up for blood pressure medication. Need to discuss recent test results and potential medication adjustments.
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <div class="action-button secondary-button">Reschedule</div>
+                        <div class="action-button primary-button">Add to Calendar</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <div class="nav-item-icon">🏠</div>
+                <div class="nav-item-label">Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-item-icon">👵</div>
+                <div class="nav-item-label">AI Granny</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-item-icon">💊</div>
+                <div class="nav-item-label">Meds</div>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-item-icon">📅</div>
+                <div class="nav-item-label">Booking</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-item-icon">📄</div>
+                <div class="nav-item-label">Records</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

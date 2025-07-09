@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Plan Screen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            border: 16px solid #111;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #6200ee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            color: white;
+            font-weight: bold;
+        }
+        .header {
+            background-color: #6200ee;
+            color: white;
+            padding: 16px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 4px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 16px;
+            font-weight: 500;
+        }
+        .tab.active {
+            color: #6200ee;
+            border-bottom: 2px solid #6200ee;
+        }
+        .content {
+            padding: 16px;
+            overflow-y: auto;
+            height: calc(100% - 180px);
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 16px 0 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        .view-all {
+            color: #6200ee;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .meal-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .meal-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .meal-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #e6e0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        .meal-title {
+            flex: 1;
+        }
+        .meal-title h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        .meal-title p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .meal-content {
+            padding: 16px;
+        }
+        .food-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .food-item:last-child {
+            margin-bottom: 0;
+        }
+        .food-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        .food-details {
+            flex: 1;
+        }
+        .food-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .food-nutrition {
+            font-size: 12px;
+            color: #666;
+        }
+        .meal-actions {
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #f0f0f0;
+        }
+        .meal-action {
+            color: #6200ee;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .diet-summary {
+            background-color: #e6e0ff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .diet-summary-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .diet-stats {
+            display: flex;
+            justify-content: space-between;
+        }
+        .diet-stat {
+            text-align: center;
+        }
+        .diet-stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .diet-stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .diet-progress {
+            height: 8px;
+            background-color: #ddd;
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        .diet-progress-bar {
+            height: 100%;
+            background-color: #6200ee;
+            width: 65%;
+        }
+        .diet-tip {
+            background-color: #fff8e1;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid #6200ee;
+        }
+        .diet-tip-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            color: #6200ee;
+        }
+        .diet-tip-title span {
+            margin-right: 8px;
+        }
+        .diet-preferences {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .diet-preferences-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .preference-item:last-child {
+            border-bottom: none;
+        }
+        .preference-label {
+            font-size: 14px;
+        }
+        .preference-value {
+            font-size: 14px;
+            color: #6200ee;
+            font-weight: 500;
+        }
+        .fab {
+            position: absolute;
+            bottom: 70px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background-color: #6200ee;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 24px;
+        }
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        .nav-item.active {
+            color: #6200ee;
+        }
+        .nav-item-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .nav-item-label {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>
+                <span style="margin-right: 8px;">📶</span>
+                <span style="margin-right: 8px;">📡</span>
+                <span>🔋</span>
+            </span>
+        </div>
+        <div class="header">
+            <h1>Diet Plan</h1>
+            <p>Wednesday, May 21, 2025</p>
+        </div>
+        <div class="tabs">
+            <div class="tab active">Today</div>
+            <div class="tab">Weekly Plan</div>
+            <div class="tab">Recipes</div>
+        </div>
+        <div class="content">
+            <div class="diet-summary">
+                <div class="diet-summary-title">Today's Nutrition</div>
+                <div class="diet-stats">
+                    <div class="diet-stat">
+                        <div class="diet-stat-value">1,450</div>
+                        <div class="diet-stat-label">Calories</div>
+                    </div>
+                    <div class="diet-stat">
+                        <div class="diet-stat-value">65g</div>
+                        <div class="diet-stat-label">Protein</div>
+                    </div>
+                    <div class="diet-stat">
+                        <div class="diet-stat-value">45g</div>
+                        <div class="diet-stat-label">Carbs</div>
+                    </div>
+                    <div class="diet-stat">
+                        <div class="diet-stat-value">55g</div>
+                        <div class="diet-stat-label">Fats</div>
+                    </div>
+                </div>
+                <div class="diet-progress">
+                    <div class="diet-progress-bar"></div>
+                </div>
+            </div>
+            
+            <div class="diet-tip">
+                <div class="diet-tip-title">
+                    <span>💡</span>
+                    Nutrition Tip
+                </div>
+                <div>
+                    Try adding amla (Indian gooseberry) to your diet. It's rich in Vitamin C and helps control blood sugar levels.
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>Today's Meals</span>
+            </div>
+            
+            <div class="meal-card">
+                <div class="meal-header">
+                    <div class="meal-icon">🍳</div>
+                    <div class="meal-title">
+                        <h3>Breakfast</h3>
+                        <p>7:30 AM • 350 calories</p>
+                    </div>
+                </div>
+                <div class="meal-content">
+                    <div class="food-item">
+                        <div class="food-icon">🥣</div>
+                        <div class="food-details">
+                            <div class="food-name">Ragi Porridge</div>
+                            <div class="food-nutrition">200 cal • 5g protein • 30g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🥚</div>
+                        <div class="food-details">
+                            <div class="food-name">Boiled Egg</div>
+                            <div class="food-nutrition">70 cal • 6g protein • 0g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🍎</div>
+                        <div class="food-details">
+                            <div class="food-name">Apple</div>
+                            <div class="food-nutrition">80 cal • 0g protein • 21g carbs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meal-actions">
+                    <div class="meal-action">View Recipe</div>
+                    <div class="meal-action">Log Meal</div>
+                </div>
+            </div>
+            
+            <div class="meal-card">
+                <div class="meal-header">
+                    <div class="meal-icon">🍲</div>
+                    <div class="meal-title">
+                        <h3>Lunch</h3>
+                        <p>1:00 PM • 450 calories</p>
+                    </div>
+                </div>
+                <div class="meal-content">
+                    <div class="food-item">
+                        <div class="food-icon">🍚</div>
+                        <div class="food-details">
+                            <div class="food-name">Brown Rice</div>
+                            <div class="food-nutrition">150 cal • 3g protein • 32g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🍛</div>
+                        <div class="food-details">
+                            <div class="food-name">Dal Tadka</div>
+                            <div class="food-nutrition">120 cal • 9g protein • 20g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🥗</div>
+                        <div class="food-details">
+                            <div class="food-name">Mixed Vegetable Sabzi</div>
+                            <div class="food-nutrition">100 cal • 3g protein • 12g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🥒</div>
+                        <div class="food-details">
+                            <div class="food-name">Cucumber Raita</div>
+                            <div class="food-nutrition">80 cal • 4g protein • 6g carbs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meal-actions">
+                    <div class="meal-action">View Recipe</div>
+                    <div class="meal-action">Log Meal</div>
+                </div>
+            </div>
+            
+            <div class="meal-card">
+                <div class="meal-header">
+                    <div class="meal-icon">🍵</div>
+                    <div class="meal-title">
+                        <h3>Evening Snack</h3>
+                        <p>4:30 PM • 150 calories</p>
+                    </div>
+                </div>
+                <div class="meal-content">
+                    <div class="food-item">
+                        <div class="food-icon">🫖</div>
+                        <div class="food-details">
+                            <div class="food-name">Green Tea</div>
+                            <div class="food-nutrition">2 cal • 0g protein • 0g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🥜</div>
+                        <div class="food-details">
+                            <div class="food-name">Mixed Nuts (small handful)</div>
+                            <div class="food-nutrition">148 cal • 5g protein • 4g carbs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meal-actions">
+                    <div class="meal-action">View Recipe</div>
+                    <div class="meal-action">Log Meal</div>
+                </div>
+            </div>
+            
+            <div class="meal-card">
+                <div class="meal-header">
+                    <div class="meal-icon">🍽️</div>
+                    <div class="meal-title">
+                        <h3>Dinner</h3>
+                        <p>8:00 PM • 500 calories</p>
+                    </div>
+                </div>
+                <div class="meal-content">
+                    <div class="food-item">
+                        <div class="food-icon">🫓</div>
+                        <div class="food-details">
+                            <div class="food-name">Multigrain Roti (2)</div>
+                            <div class="food-nutrition">170 cal • 6g protein • 30g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🍲</div>
+                        <div class="food-details">
+                            <div class="food-name">Palak Paneer</div>
+                            <div class="food-nutrition">250 cal • 14g protein • 10g carbs</div>
+                        </div>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon">🥗</div>
+                        <div class="food-details">
+                            <div class="food-name">Kachumber Salad</div>
+                            <div class="food-nutrition">80 cal • 2g protein • 15g carbs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meal-actions">
+                    <div class="meal-action">View Recipe</div>
+                    <div class="meal-action">Log Meal</div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>Diet Preferences</span>
+                <span class="view-all">Edit</span>
+            </div>
+            
+            <div class="diet-preferences">
+                <div class="preference-item">
+                    <div class="preference-label">Diet Type</div>
+                    <div class="preference-value">Vegetarian</div>
+                </div>
+                <div class="preference-item">
+                    <div class="preference-label">Calorie Target</div>
+                    <div class="preference-value">1500 cal/day</div>
+                </div>
+                <div class="preference-item">
+                    <div class="preference-label">Health Condition</div>
+                    <div class="preference-value">Diabetes Type 2</div>
+                </div>
+                <div class="preference-item">
+                    <div class="preference-label">Allergies</div>
+                    <div class="preference-value">Peanuts</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fab">+</div>
+        
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <div class="nav-item-icon">🏠</div>
+                <div class="nav-item-label">Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-item-icon">👵</div>
+                <div class="nav-item-label">AI Granny</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-item-icon">💊</div>
+                <div class="nav-item-label">Meds</div>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-item-icon">🍎</div>
+                <div class="nav-item-label">Diet</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-item-icon">📄</div>
+                <div class="nav-item-label">Records</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

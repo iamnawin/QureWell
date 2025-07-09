@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllForYourHealth - Home Screen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 10px solid #111;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .time {
+            font-weight: bold;
+        }
+        .icons {
+            display: flex;
+            gap: 5px;
+        }
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #6c5ce7;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #666;
+        }
+        .content {
+            padding: 20px;
+            height: calc(100% - 44px - 60px - 70px);
+            overflow-y: auto;
+        }
+        .welcome {
+            margin-bottom: 30px;
+        }
+        .welcome-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .welcome-subtext {
+            color: #666;
+            font-size: 14px;
+        }
+        .card {
+            background-color: #6c5ce7;
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        .card-content {
+            flex: 1;
+        }
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .card-description {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 15px;
+        }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .action-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e0e0e0;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .action-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .action-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .tab-bar {
+            height: 70px;
+            background-color: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .tab-label {
+            font-size: 10px;
+            color: #666;
+        }
+        .tab.active .tab-icon,
+        .tab.active .tab-label {
+            color: #6c5ce7;
+        }
+        .heart-icon {
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <div class="time">9:41</div>
+            <div class="icons">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <span class="heart-icon">❤️</span>
+                </div>
+                <div class="logo-text">allforyourhealth</div>
+            </div>
+            <div class="avatar">JD</div>
+        </div>
+        <div class="content">
+            <div class="welcome">
+                <div class="welcome-text">Hello, John!</div>
+                <div class="welcome-subtext">How are you feeling today?</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <div class="card-content">
+                    <div class="card-title">AI Caretaker</div>
+                    <div class="card-description">Stay on track with your daily medication, diet, and more.</div>
+                </div>
+            </div>
+            
+            <div class="section-title">Quick Actions</div>
+            <div class="quick-actions">
+                <div class="action-card">
+                    <div class="action-icon">💊</div>
+                    <div class="action-title">Medications</div>
+                    <div class="action-subtitle">2 due today</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">🍎</div>
+                    <div class="action-title">Diet Plan</div>
+                    <div class="action-subtitle">View today's meals</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">📊</div>
+                    <div class="action-title">Vitals</div>
+                    <div class="action-subtitle">Log new reading</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">📈</div>
+                    <div class="action-title">Progress</div>
+                    <div class="action-subtitle">Track your health</div>
+                </div>
+            </div>
+            
+            <div class="section-title">Upcoming</div>
+            <div class="card" style="background-color: #fd79a8;">
+                <div class="card-icon">⏰</div>
+                <div class="card-content">
+                    <div class="card-title">Medication Reminder</div>
+                    <div class="card-description">Lisinopril - 10mg at 12:00 PM</div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-bar">
+            <div class="tab active">
+                <div class="tab-icon">🏠</div>
+                <div class="tab-label">Home</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">💊</div>
+                <div class="tab-label">Meds</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">🤖</div>
+                <div class="tab-label">AI</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">📊</div>
+                <div class="tab-label">Progress</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">👤</div>
+                <div class="tab-label">Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

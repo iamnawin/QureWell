@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "981203739204",
+    "project_id": "allforyourhealth-82edc",
+    "storage_bucket": "allforyourhealth-82edc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981203739204:android:776725c5b0dd77e8c99211",
+        "android_client_info": {
+          "package_name": "allforyour.health"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5df_aSMkxHdTs-_me7NgPKe2QqHjecfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+} 

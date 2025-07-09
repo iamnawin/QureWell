@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllForYourHealth - AI Caretaker Screen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 10px solid #111;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .time {
+            font-weight: bold;
+        }
+        .icons {
+            display: flex;
+            gap: 5px;
+        }
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6c5ce7;
+            color: white;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .back-button {
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            height: calc(100% - 44px - 60px - 70px);
+            overflow-y: auto;
+        }
+        .ai-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+        }
+        .ai-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .ai-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+        }
+        .ai-message {
+            align-self: flex-start;
+            background-color: #f0f0f0;
+            border-bottom-left-radius: 5px;
+        }
+        .user-message {
+            align-self: flex-end;
+            background-color: #6c5ce7;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .feature-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #6c5ce7;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: white;
+        }
+        .feature-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .feature-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .voice-input {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f8f8f8;
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        .voice-input-text {
+            color: #666;
+            font-size: 14px;
+        }
+        .mic-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+        .tab-bar {
+            height: 70px;
+            background-color: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .tab-label {
+            font-size: 10px;
+            color: #666;
+        }
+        .tab.active .tab-icon,
+        .tab.active .tab-label {
+            color: #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <div class="time">9:41</div>
+            <div class="icons">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        <div class="header">
+            <div class="back-button">←</div>
+            <div class="header-title">AI Caretaker</div>
+            <div style="width: 24px;"></div>
+        </div>
+        <div class="content">
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-title">AI Caretaker</div>
+            <div class="ai-subtitle">Your personal health assistant</div>
+            
+            <div class="chat-container">
+                <div class="message ai-message">
+                    Hello John! How can I help you with your health today?
+                </div>
+                <div class="message user-message">
+                    I need to take my medication
+                </div>
+                <div class="message ai-message">
+                    You have Lisinopril 10mg scheduled for 12:00 PM today. Would you like me to remind you when it's time?
+                </div>
+                <div class="message user-message">
+                    Yes, please remind me
+                </div>
+                <div class="message ai-message">
+                    Great! I've set a reminder for your Lisinopril at 12:00 PM. Is there anything else I can help you with?
+                </div>
+            </div>
+            
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">💊</div>
+                    <div class="feature-title">Medication</div>
+                    <div class="feature-subtitle">Manage your meds</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🍎</div>
+                    <div class="feature-title">Diet Plan</div>
+                    <div class="feature-subtitle">Healthy eating</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎙️</div>
+                    <div class="feature-title">Record Audio</div>
+                    <div class="feature-subtitle">Health notes</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <div class="feature-title">Appointments</div>
+                    <div class="feature-subtitle">Book & manage</div>
+                </div>
+            </div>
+            
+            <div class="voice-input">
+                <div class="voice-input-text">Tap to speak...</div>
+                <div class="mic-button">🎤</div>
+            </div>
+        </div>
+        <div class="tab-bar">
+            <div class="tab">
+                <div class="tab-icon">🏠</div>
+                <div class="tab-label">Home</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">💊</div>
+                <div class="tab-label">Meds</div>
+            </div>
+            <div class="tab active">
+                <div class="tab-icon">🤖</div>
+                <div class="tab-label">AI</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">📊</div>
+                <div class="tab-label">Progress</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">👤</div>
+                <div class="tab-label">Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

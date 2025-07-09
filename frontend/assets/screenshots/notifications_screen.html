@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllForYourHealth - Notifications Screen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 10px solid #111;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .time {
+            font-weight: bold;
+        }
+        .icons {
+            display: flex;
+            gap: 5px;
+        }
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6c5ce7;
+            color: white;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .back-button {
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            height: calc(100% - 44px - 60px - 70px);
+            overflow-y: auto;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .notification-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .notification-tab {
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+        }
+        .notification-tab.active {
+            color: #6c5ce7;
+            border-bottom: 2px solid #6c5ce7;
+        }
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .notification-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .notification-card.unread {
+            border-left: 4px solid #6c5ce7;
+        }
+        .notification-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: white;
+        }
+        .notification-details {
+            flex: 1;
+        }
+        .notification-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .notification-message {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+        }
+        .settings-section {
+            margin-top: 30px;
+        }
+        .settings-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .settings-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        .settings-label {
+            font-size: 14px;
+            color: #333;
+        }
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #6c5ce7;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .tab-bar {
+            height: 70px;
+            background-color: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .tab-label {
+            font-size: 10px;
+            color: #666;
+        }
+        .tab.active .tab-icon,
+        .tab.active .tab-label {
+            color: #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <div class="time">9:41</div>
+            <div class="icons">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        <div class="header">
+            <div class="back-button">←</div>
+            <div class="header-title">Notifications</div>
+            <div style="width: 24px;"></div>
+        </div>
+        <div class="content">
+            <div class="notification-tabs">
+                <div class="notification-tab active">All</div>
+                <div class="notification-tab">Medications</div>
+                <div class="notification-tab">Appointments</div>
+                <div class="notification-tab">Settings</div>
+            </div>
+            
+            <div class="notification-list">
+                <div class="notification-card unread">
+                    <div class="notification-icon">💊</div>
+                    <div class="notification-details">
+                        <div class="notification-title">Medication Reminder</div>
+                        <div class="notification-message">Time to take Lisinopril 10mg</div>
+                        <div class="notification-time">12:00 PM Today</div>
+                    </div>
+                </div>
+                <div class="notification-card">
+                    <div class="notification-icon">📅</div>
+                    <div class="notification-details">
+                        <div class="notification-title">Appointment Reminder</div>
+                        <div class="notification-message">Dr. Smith tomorrow at 10:00 AM</div>
+                        <div class="notification-time">Yesterday, 6:00 PM</div>
+                    </div>
+                </div>
+                <div class="notification-card">
+                    <div class="notification-icon">📊</div>
+                    <div class="notification-details">
+                        <div class="notification-title">Blood Pressure Alert</div>
+                        <div class="notification-message">Your BP reading is higher than usual</div>
+                        <div class="notification-time">Yesterday, 8:30 AM</div>
+                    </div>
+                </div>
+                <div class="notification-card">
+                    <div class="notification-icon">🍎</div>
+                    <div class="notification-details">
+                        <div class="notification-title">Diet Plan Updated</div>
+                        <div class="notification-message">Your diet plan has been updated</div>
+                        <div class="notification-time">May 19, 2025, 3:15 PM</div>
+                    </div>
+                </div>
+                <div class="notification-card">
+                    <div class="notification-icon">💊</div>
+                    <div class="notification-details">
+                        <div class="notification-title">Medication Reminder</div>
+                        <div class="notification-message">Time to take Metformin 500mg</div>
+                        <div class="notification-time">May 19, 2025, 8:00 AM</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section" style="display: none;">
+                <div class="settings-card">
+                    <div class="settings-title">Notification Preferences</div>
+                    <div class="settings-item">
+                        <div class="settings-label">Medication Reminders</div>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">Appointment Reminders</div>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">Health Alerts</div>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">Diet Plan Updates</div>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="settings-title">Notification Methods</div>
+                    <div class="settings-item">
+                        <div class="settings-label">Push Notifications</div>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">SMS</div>
+                        <label class="toggle">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">Email</div>
+                        <label class="toggle">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">Voice Reminders</div>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-bar">
+            <div class="tab">
+                <div class="tab-icon">🏠</div>
+                <div class="tab-label">Home</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">💊</div>
+                <div class="tab-label">Meds</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">🤖</div>
+                <div class="tab-label">AI</div>
+            </div>
+            <div class="tab active">
+                <div class="tab-icon">🔔</div>
+                <div class="tab-label">Notifications</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">👤</div>
+                <div class="tab-label">Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

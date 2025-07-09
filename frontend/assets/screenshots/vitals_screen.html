@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllForYourHealth - Vitals Screen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 10px solid #111;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .time {
+            font-weight: bold;
+        }
+        .icons {
+            display: flex;
+            gap: 5px;
+        }
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6c5ce7;
+            color: white;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .back-button {
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            height: calc(100% - 44px - 60px - 70px);
+            overflow-y: auto;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .vitals-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .vitals-tab {
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+        }
+        .vitals-tab.active {
+            color: #6c5ce7;
+            border-bottom: 2px solid #6c5ce7;
+        }
+        .chart-container {
+            background-color: #f8f8f8;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            height: 200px;
+            position: relative;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .chart-placeholder {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to right, #6c5ce7, #a29bfe);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .chart-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 300' preserveAspectRatio='none'%3E%3Cpath d='M0,150 C150,100 350,250 500,100 C650,50 850,200 1000,150' stroke='white' stroke-width='3' fill='none' /%3E%3C/svg%3E");
+            background-size: 100% 100%;
+        }
+        .chart-dots {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        .chart-dot-1 {
+            top: 50%;
+            left: 20%;
+        }
+        .chart-dot-2 {
+            top: 30%;
+            left: 40%;
+        }
+        .chart-dot-3 {
+            top: 70%;
+            left: 60%;
+        }
+        .chart-dot-4 {
+            top: 40%;
+            left: 80%;
+        }
+        .vitals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .vital-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .vital-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: white;
+        }
+        .vital-details {
+            flex: 1;
+        }
+        .vital-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .vital-value {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .vital-date {
+            font-size: 12px;
+            color: #888;
+        }
+        .add-button {
+            position: absolute;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
+        .tab-bar {
+            height: 70px;
+            background-color: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .tab-label {
+            font-size: 10px;
+            color: #666;
+        }
+        .tab.active .tab-icon,
+        .tab.active .tab-label {
+            color: #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <div class="time">9:41</div>
+            <div class="icons">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        <div class="header">
+            <div class="back-button">←</div>
+            <div class="header-title">Vitals</div>
+            <div style="width: 24px;"></div>
+        </div>
+        <div class="content">
+            <div class="vitals-tabs">
+                <div class="vitals-tab active">Blood Pressure</div>
+                <div class="vitals-tab">Heart Rate</div>
+                <div class="vitals-tab">Weight</div>
+                <div class="vitals-tab">Blood Sugar</div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Blood Pressure History</div>
+                <div class="chart-placeholder">
+                    <div class="chart-line"></div>
+                    <div class="chart-dots chart-dot-1"></div>
+                    <div class="chart-dots chart-dot-2"></div>
+                    <div class="chart-dots chart-dot-3"></div>
+                    <div class="chart-dots chart-dot-4"></div>
+                </div>
+            </div>
+            
+            <div class="section-title">Recent Readings</div>
+            <div class="vitals-list">
+                <div class="vital-card">
+                    <div class="vital-icon">❤️</div>
+                    <div class="vital-details">
+                        <div class="vital-name">Blood Pressure</div>
+                        <div class="vital-value">120/80 mmHg</div>
+                        <div class="vital-date">Today, 8:00 AM</div>
+                    </div>
+                </div>
+                <div class="vital-card">
+                    <div class="vital-icon">❤️</div>
+                    <div class="vital-details">
+                        <div class="vital-name">Blood Pressure</div>
+                        <div class="vital-value">118/78 mmHg</div>
+                        <div class="vital-date">Yesterday, 8:00 AM</div>
+                    </div>
+                </div>
+                <div class="vital-card">
+                    <div class="vital-icon">❤️</div>
+                    <div class="vital-details">
+                        <div class="vital-name">Blood Pressure</div>
+                        <div class="vital-value">122/82 mmHg</div>
+                        <div class="vital-date">May 19, 2025, 8:00 AM</div>
+                    </div>
+                </div>
+                <div class="vital-card">
+                    <div class="vital-icon">❤️</div>
+                    <div class="vital-details">
+                        <div class="vital-name">Blood Pressure</div>
+                        <div class="vital-value">124/84 mmHg</div>
+                        <div class="vital-date">May 18, 2025, 8:00 AM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-button">+</div>
+        
+        <div class="tab-bar">
+            <div class="tab">
+                <div class="tab-icon">🏠</div>
+                <div class="tab-label">Home</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">💊</div>
+                <div class="tab-label">Meds</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">🤖</div>
+                <div class="tab-label">AI</div>
+            </div>
+            <div class="tab active">
+                <div class="tab-icon">📊</div>
+                <div class="tab-label">Vitals</div>
+            </div>
+            <div class="tab">
+                <div class="tab-icon">👤</div>
+                <div class="tab-label">Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
