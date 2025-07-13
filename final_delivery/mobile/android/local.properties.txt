@@ -1,0 +1,5 @@
+sdk.dir=C:\\Users\\Naveen\\AppData\\Local\\Android\\Sdk
+
+
+
+
